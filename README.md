@@ -4,8 +4,10 @@ A simple Node.js and MongoDB app that lets users like or dislike animals by clic
 
 ---
 
-[Link to view project]()
+[Link to view project](https://animal-likes-production.up.railway.app/)
 [screenshot](/public/animals-screenshot.png)
+
+---
 
 ## 🚀 How It’s Made
 
