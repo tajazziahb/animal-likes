@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="font-awesome.min.css">
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <h1>Give your favorite animals a vote!</h1>
+
+  <ul class="animals">
+    <% animals.forEach(animal => { %>
+      <li class="creatures" data-animal-id="<%= animal.name %>">
+        <span class="animal-name"><%= animal.name %></span>
+        <img src="<%= animal.img %>" alt="<%= animal.name %>">
+        <div class="vote-row">
+          <i class="fa fa-thumbs-up" aria-hidden="true"></i>
+          <span class="vote-count"><%= animal.thumbUp %></span>
+          <i class="fa fa-thumbs-down" aria-hidden="true"></i>
+        </div>
+      </li>
+    <% }) %>
+  </ul>
+
+  <script src="main.js"></script>
+</body>
+</html>
