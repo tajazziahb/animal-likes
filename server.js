@@ -9,7 +9,6 @@ const DB_NAME = 'animals'
 
 let db
 
-// connect to Mongo in the background (non-blocking)
 MongoClient.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(client => {
     db = client.db(DB_NAME)
@@ -19,19 +18,16 @@ MongoClient.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: tr
     console.error('❌ Mongo connection failed:', err.message)
   })
 
-// middlewares
 app.set('view engine', 'ejs')
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
 app.use(express.static('public'))
 
-// safety check before hitting DB
 function requireDb(req, res, next) {
   if (!db) return res.status(503).send('Database not connected')
   next()
 }
 
-// --- ROUTES ---
 app.get('/', requireDb, async (req, res) => {
   try {
     const animals = await db.collection('animal').find().toArray()
@@ -40,8 +36,6 @@ app.get('/', requireDb, async (req, res) => {
     res.status(500).send('Error fetching animals')
   }
 })
-
-app.get('/__ping', (req, res) => res.send('OK'))
 
 app.put('/animals/thumbUp', requireDb, async (req, res) => {
   const name = req.body?.name
@@ -75,5 +69,4 @@ app.put('/animals/thumbDown', requireDb, async (req, res) => {
   }
 })
 
-// --- START SERVER ---
 app.listen(PORT, () => console.log(`🚀 Server listening on ${PORT}`))
