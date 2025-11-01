@@ -7,13 +7,16 @@ var db;
 const url = "mongodb+srv://bootht14_db_user:teletubbies@cluster0.pchtn1f.mongodb.net";
 const dbName = "animals";
 
-app.listen(2000, () => {
+const PORT = process.env.PORT || 2000;
+
+app.listen(PORT, () => {
   MongoClient.connect(url, { useNewUrlParser: true, useUnifiedTopology: true }, (error, client) => {
     if (error) throw error;
     db = client.db(dbName);
-    console.log("Connected to `" + dbName + "`!");
+    console.log(`Connected to "${dbName}" and listening on port ${PORT}`);
   });
 });
+
 
 app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({ extended: true }));
