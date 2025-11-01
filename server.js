@@ -1,51 +1,49 @@
-const express = require('express');
-const app = express();
-const bodyParser = require('body-parser');
-const MongoClient = require('mongodb').MongoClient;
+const express = require('express')
+const bodyParser = require('body-parser')
+const { MongoClient } = require('mongodb')
 
-var db;
-const url = "mongodb+srv://bootht14_db_user:teletubbies@cluster0.pchtn1f.mongodb.net";
-const dbName = "animals";
+const app = express()
+let db
 
-const PORT = process.env.PORT || 2000;
+const PORT = process.env.PORT || 3000 
+const MONGODB_URI = process.env.MONGODB_URI 
+const DB_NAME = process.env.DB_NAME || 'animals'
 
-app.listen(PORT, () => {
-  MongoClient.connect(url, { useNewUrlParser: true, useUnifiedTopology: true }, (error, client) => {
-    if (error) throw error;
-    db = client.db(dbName);
-    console.log(`Connected to "${dbName}" and listening on port ${PORT}`);
-  });
-});
+app.set('view engine', 'ejs')
+app.use(bodyParser.urlencoded({ extended: true }))
+app.use(bodyParser.json())
+app.use(express.static('public'))
 
+function requireDb(req, res, next) {
+  if (!db) return res.status(503).send('Service warming up, try again.')
+  next()
+}
 
-app.set('view engine', 'ejs');
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
-app.use(express.static('public'));
+app.get('/', requireDb, (req, res, next) => {
+  db.collection('animal').find().toArray((err, animals) => {
+    if (err) return next(err)
+    res.render('index.ejs', { animals })
+  })
+})
 
-app.get('/', (req, res) => {
-  db.collection('animal').find().toArray((err, results) => {
-    if (err) return console.log(err);
-    res.render('index.ejs', { animals: results });
-  });
-});
-
-app.put('/animals/thumbUp', (req, res) => {
-  const name = req.body.name
+app.put('/animals/thumbUp', requireDb, (req, res) => { //
+  const name = req.body && req.body.name
+  if (!name) return res.status(400).send('Missing name')
   db.collection('animal').findOneAndUpdate(
-    { name }, // Filter to find the animal by name
+    { name },
     { $inc: { thumbUp: 1 } },
-    { returnOriginal: false }, // Return the updated document
+    { returnOriginal: false },
     (err, result) => {
       if (err) return res.status(500).send('DB error')
       if (!result.value) return res.status(404).send('Animal not found')
-      res.json({ thumbUp: result.value.thumbUp }) // Send back the updated thumbUp count
+      res.json({ thumbUp: result.value.thumbUp })
     }
   )
 })
 
-app.put('/animals/thumbDown', (req, res) => {
-  const name = req.body.name
+app.put('/animals/thumbDown', requireDb, (req, res) => {
+  const name = req.body && req.body.name
+  if (!name) return res.status(400).send('Missing name')
   db.collection('animal').findOneAndUpdate(
     { name },
     { $inc: { thumbUp: -1 } },
@@ -58,4 +56,11 @@ app.put('/animals/thumbDown', (req, res) => {
   )
 })
 
-
+MongoClient.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true }, (err, client) => {
+  if (err) {
+    console.error('Mongo connection failed:', err.message)
+    return
+  }
+  db = client.db(DB_NAME)
+  app.listen(PORT, () => console.log(`Listening on ${PORT}`))
+})
