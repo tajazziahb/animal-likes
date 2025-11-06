@@ -13,11 +13,10 @@ Animal Rater is a full-stack web app that lets users upload and rate their favor
 ## How It’s Made
 
 **Tech Stack**
-HTML, CSS, JavaScript (Frontend)
-Node.js, Express (Server)
-MongoDB (Database)
-Multer (image upload)
-EJS (Templating Engine)  
+- EJS (Templating Engine), CSS, JavaScript (Frontend)
+- Node.js, Express (Server)
+- MongoDB (Database)
+- Multer (Image Upload)
 
 ---
 
