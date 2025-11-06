@@ -1,6 +1,7 @@
-# 🐾 Animal Likes
+# Animal Rater
 
-A simple Node.js and MongoDB app that lets users give an animal name and upload an image.
+Animal Rater is a full-stack web app that lets users upload and rate their favorite animals. What started as a static gallery evolved into a fully dynamic experience — users can now post new animals, upvote or downvote them, and even delete their own uploads. The interface combines a nature-inspired design with smooth live updates to make everything feel alive and interactive.
+
 ---
 
 [Link to view project](https://animal-likes-production.up.railway.app/)
@@ -12,37 +13,37 @@ A simple Node.js and MongoDB app that lets users give an animal name and upload 
 ## How It’s Made
 
 **Tech Stack**
-- HTML, CSS, JavaScript (Frontend)
-- Node.js, Express (Server)
-- MongoDB (Database)
-- EJS (Templating Engine)
-
-**How It Works**
-- Fetches a list of animals from the MongoDB `animal` collection  
-- Displays animal name, image, and current like count  
-- Clicking 👍 or 👎 updates the count in real time  
-- Likes and dislikes both adjust the same counter (downvotes subtract, upvotes add)
+HTML, CSS, JavaScript (Frontend)
+Node.js, Express (Server)
+MongoDB (Database)
+Multer (image upload)
+EJS (Templating Engine)  
 
 ---
 
-## Lessons Learned
-
-Refactoring this app from a message board template taught me how to separate front-end display logic from server-side data updates while maintaining instant visual feedback.  
-I learned how to:
-- Rework a text-based CRUD flow into an image-based UI
-- Handle real-time data updates using `fetch()` without page reloads
-- Use `findOneAndUpdate()` correctly with `{ returnOriginal: false }` for accurate responses
-- Keep design consistency while removing unnecessary form functionality
+## How It Works
+- Users fill out a short form with an animal name and image file.  
+- Upon submission, Multer stores the image and a new record is created in MongoDB.  
+- The name is automatically formatted — first letter capitalized, and any following words treated properly (e.g., “mountain lion” → “Mountain Lion”).  
+- Each card displays the animal’s name, image, and live vote count.  
+- Users can click thumbs up or thumbs down to adjust the counter in real time.  
+- Only user-submitted animals can be deleted.  
+- The interface includes subtle animations and a paw-print background trail to give the app a more natural, “forest journal” feel.
 
 ---
 
 ## Optimizations
+- Replaced static seed data with live MongoDB collection reads  
+- Added file upload and delete functionality for better user control  
+- Simplified database logic to ensure live update accuracy after voting  
+- Adjusted styling for better visual hierarchy and responsive design  
+- Moved all uploads to `.gitignore` to keep the repo lightweight and clean  
 
-- Removed unused routes and message form logic to simplify performance  
-- Minimized database calls — no upserts, only updates to existing documents  
-- Lightweight CSS structure for responsiveness and quick render  
-- Replaced full-page reloads with direct DOM updates after fetch responses  
-- Clean data flow between client and server for immediate feedback
+---
 
-
-
+## Lessons Learned
+- Managing file uploads is simpler once routes and file serving paths are clearly structured  
+- A small amount of animation can elevate a minimalist layout  
+- Handling case formatting in the backend avoids inconsistent database entries  
+- Clean separation between PUT, POST, and DELETE routes makes debugging easier  
+- Always double-check `.gitignore` before committing any generated assets or uploads  
