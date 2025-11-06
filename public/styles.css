@@ -1,37 +1,253 @@
 * {
   box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
 body {
-  margin: 0;
-  font-family: Arial, Helvetica, sans-serif;
-  background: #00e6e6;
-  color: #111;
+  font-family: "Poppins", Arial, Helvetica, sans-serif;
+  color: #24341f;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
+  padding: 28px 16px 64px;
+  background:
+    radial-gradient(800px 520px at 15% 10%, rgba(63, 124, 87, .22), transparent 55%),
+    radial-gradient(900px 560px at 85% 20%, rgba(79, 160, 120, .18), transparent 60%),
+    radial-gradient(900px 520px at 20% 90%, rgba(79, 160, 120, .18), transparent 60%),
+    radial-gradient(700px 420px at 82% 85%, rgba(63, 124, 87, .16), transparent 60%),
+    repeating-linear-gradient(0deg, rgba(0, 0, 0, .02) 0 1px, transparent 2px 4px),
+    linear-gradient(#e8f4ea, #d6efe3);
+  background-attachment: fixed, fixed, fixed, fixed, fixed, fixed;
+  animation: forestShift 18s ease-in-out infinite alternate;
+  position: relative;
+  z-index: 1;
+}
+
+@keyframes forestShift {
+  0% {
+    background-position:
+      0% 0%, 100% 0%, 0% 100%, 100% 100%, 0 0, 0 0;
+  }
+
+  100% {
+    background-position:
+      4% 2%, 96% 3%, 2% 98%, 98% 96%, 0 0, 0 0;
+  }
+}
+
+.paw-trail {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.paw-trail .paw::before {
+  content: "\f1b0";
+  font-family: FontAwesome;
+  font-size: 30px;
+  color: rgba(27, 67, 50, 0.18);
+  text-shadow: 0 2px 6px rgba(0, 0, 0, .08);
+  position: absolute;
+  top: 110%;
+  left: 50%;
+  transform: translate(-50%, 0) rotate(-10deg) scale(1);
+  animation: floatPaw 20s linear infinite;
+  filter: blur(.3px);
+  opacity: .5;
+}
+
+@keyframes floatPaw {
+  0% {
+    transform: translate(-50%, 0) rotate(-10deg) scale(1);
+    opacity: 0;
+  }
+
+  10% {
+    opacity: .55;
+  }
+
+  50% {
+    transform: translate(-57%, -55vh) rotate(6deg) scale(1.06);
+    opacity: .45;
+  }
+
+  100% {
+    transform: translate(-46%, -120vh) rotate(-6deg) scale(1);
+    opacity: 0;
+  }
+}
+
+.paw-trail .paw:nth-child(1)::before {
+  left: 10%;
+  font-size: 28px;
+  animation-duration: 22s;
+  animation-delay: -2s;
+  opacity: .38;
+}
+
+.paw-trail .paw:nth-child(2)::before {
+  left: 22%;
+  font-size: 34px;
+  animation-duration: 18s;
+  animation-delay: -7s;
+  opacity: .32;
+}
+
+.paw-trail .paw:nth-child(3)::before {
+  left: 33%;
+  font-size: 26px;
+  animation-duration: 24s;
+  animation-delay: -10s;
+  opacity: .35;
+}
+
+.paw-trail .paw:nth-child(4)::before {
+  left: 44%;
+  font-size: 30px;
+  animation-duration: 20s;
+  animation-delay: -14s;
+  opacity: .28;
+}
+
+.paw-trail .paw:nth-child(5)::before {
+  left: 55%;
+  font-size: 27px;
+  animation-duration: 23s;
+  animation-delay: -4s;
+  opacity: .36;
+}
+
+.paw-trail .paw:nth-child(6)::before {
+  left: 66%;
+  font-size: 33px;
+  animation-duration: 19s;
+  animation-delay: -12s;
+  opacity: .30;
+}
+
+.paw-trail .paw:nth-child(7)::before {
+  left: 75%;
+  font-size: 25px;
+  animation-duration: 22s;
+  animation-delay: -8s;
+  opacity: .34;
+}
+
+.paw-trail .paw:nth-child(8)::before {
+  left: 84%;
+  font-size: 31px;
+  animation-duration: 26s;
+  animation-delay: -16s;
+  opacity: .31;
+}
+
+.paw-trail .paw:nth-child(9)::before {
+  left: 15%;
+  font-size: 24px;
+  animation-duration: 28s;
+  animation-delay: -18s;
+  opacity: .28;
+}
+
+.paw-trail .paw:nth-child(10)::before {
+  left: 38%;
+  font-size: 32px;
+  animation-duration: 17s;
+  animation-delay: -20s;
+  opacity: .30;
+}
+
+.paw-trail .paw:nth-child(11)::before {
+  left: 62%;
+  font-size: 29px;
+  animation-duration: 25s;
+  animation-delay: -3s;
+  opacity: .33;
+}
+
+.paw-trail .paw:nth-child(12)::before {
+  left: 88%;
+  font-size: 35px;
+  animation-duration: 19s;
+  animation-delay: -6s;
+  opacity: .27;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .paw-trail .paw::before {
+    animation: none;
+    top: 50%;
+    transform: translate(-50%, -50%) rotate(0);
+    opacity: .12;
+  }
 }
 
 h1 {
-  margin: 20px 0 6px;
-  font-size: 28px;
+  font-family: "Playfair Display", Georgia, "Times New Roman", serif;
+  font-size: 44px;
+  letter-spacing: .5px;
+  background: linear-gradient(#2f4b35, #1e3320);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0 2px 2px rgba(163, 136, 90, .22);
+  margin-bottom: 16px;
 }
 
-h3 {
-  margin: 0 0 18px;
-  font-size: 20px;
-  font-weight: 700;
+#uploadImageForm {
+  background: #fffdf6;
+  border: 1px solid #e2ddc8;
+  border-radius: 14px;
+  padding: 14px 18px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  box-shadow:
+    0 10px 26px rgba(61, 43, 21, .10),
+    inset 0 1px 0 rgba(255, 255, 255, .7);
+  margin-bottom: 16px;
+}
+
+#uploadImageForm input[type="text"],
+#uploadImageForm input[type="file"] {
+  width: 100%;
+  max-width: 360px;
+  padding: 10px 12px;
+  border: 1px solid #cfddc5;
+  border-radius: 8px;
+  background: #ffffff;
+  color: #223b27;
+  font-size: 14px;
+}
+
+#uploadImageForm button {
+  background: #3f7c57;
+  color: #fff;
+  border: 0;
+  padding: 10px 16px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform .12s ease, background .2s ease;
+}
+
+#uploadImageForm button:hover {
+  background: #2d6445;
+  transform: translateY(-1px);
 }
 
 ul.animals {
   list-style: none;
-  margin: 0;
-  padding: 20px;
   width: 100%;
-  max-width: 1200px;
+  max-width: 1100px;
   display: grid;
+  gap: 24px;
+  padding: 18px 6px;
   grid-template-columns: repeat(3, 1fr);
-  gap: 28px;
 }
 
 @media (max-width: 900px) {
@@ -46,74 +262,140 @@ ul.animals {
   }
 }
 
-li.creatures {
-  background: #fff;
+.creatures {
+  background: #fffefb;
+  border: 1px solid #e7e1ce;
   border-radius: 16px;
-  padding: 18px;
-  box-shadow: 0 6px 18px rgba(0, 0, 0, .15);
+  padding: 14px;
   text-align: center;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
   overflow: hidden;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-  min-height: 420px;
+  box-shadow:
+    0 12px 28px rgba(24, 74, 52, .10),
+    inset 0 1px 0 rgba(255, 255, 255, .7);
+  transition: transform .22s ease, box-shadow .22s ease;
+  transform: rotate(-0.3deg);
 }
 
-li.creatures:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.2);
+.creatures:hover {
+  transform: translateY(-3px) rotate(0deg);
+  box-shadow: 0 16px 36px rgba(24, 74, 52, .14), inset 0 1px 0 rgba(255, 255, 255, .75);
 }
 
-li.creatures .animal-name {
-  display: block;
+.creatures .animal-name {
   font-weight: 700;
-  font-size: 20px;
-  margin-bottom: 6px;
+  font-size: 19px;
+  color: #23452e;
+  margin-bottom: 8px;
+  position: relative;
+  display: inline-block;
 }
 
-li.creatures img {
+.creatures .animal-name:after {
+  content: "\f1b0";
+  font-family: FontAwesome;
+  color: #3a7a55;
+  font-size: 13px;
+  margin-left: 8px;
+  opacity: .9;
+}
+
+.creatures img {
   width: 100%;
-  height: 260px;
+  height: 250px;
   object-fit: cover;
-  background: #fff;
-  border-radius: 14px;
-  display: block;
-  margin: 12px 0 10px;
-  clip-path: inset(0 round 14px);
-  object-position: 50% 45%;
+  border-radius: 12px;
+  border: 2px solid #d6c29a;
+  box-shadow: 0 6px 14px rgba(61, 43, 21, .15);
+  margin: 8px 0 10px;
+  transition: transform .25s ease;
 }
 
-li.creatures .vote-row {
-  display: flex;
+.creatures:hover img {
+  transform: scale(1.015);
+}
+
+.vote-row {
+  display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 10px;
-  margin-top: auto;
+  gap: 12px;
 }
 
-li.creatures .vote-row i.fa {
-  font-size: 22px;
+.fa {
+  font-size: 18px;
   cursor: pointer;
-  transition: color .15s ease, transform .1s ease;
+  padding: 8px 10px;
+  border-radius: 999px;
+  background: #eff8f1;
+  border: 1px solid #d6eadb;
+  color: #2f7c57;
+  transition: transform .12s ease, background .2s ease, color .2s ease;
 }
 
-li.creatures .vote-row i.fa:hover {
+.fa:hover {
   transform: translateY(-2px);
+  background: #e6f4ea;
 }
 
-li.creatures .vote-row i.fa-thumbs-up:hover {
-  color: #00cc66;
+.fa-thumbs-down {
+  color: #b44242;
 }
 
-li.creatures .vote-row i.fa-thumbs-down:hover {
-  color: #ff4d4d;
+.fa-thumbs-down:hover {
+  background: #fdeaea;
 }
 
-li.creatures .vote-row .vote-count {
-  font-size: 20px;
-  font-weight: 600;
-  color: #111;
-  min-width: 30px;
+.fa-trash {
+  color: #647a45;
+}
+
+.fa-trash:hover {
+  background: #f2f6ea;
+}
+
+.vote-count {
+  min-width: 44px;
   text-align: center;
+  background: linear-gradient(#fff1c2, #ffd983);
+  color: #5b4720;
+  border: 1px solid #f0cf88;
+  padding: 6px 10px;
+  border-radius: 10px;
+  font-weight: 700;
+  font-size: 16px;
+  box-shadow: 0 2px 8px rgba(91, 71, 32, .12);
+}
+
+.empty-state {
+  color: #355f46;
+  background: #eff7f1;
+  border: 1px dashed #cfe7d7;
+  padding: 14px 16px;
+  border-radius: 10px;
+  margin-top: 8px;
+}
+
+.creatures::before {
+  content: "";
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 6px;
+  border-radius: 16px 16px 0 0;
+  background: linear-gradient(to right, #4a825b, #80a86d);
+}
+
+.creatures {
+  position: relative;
+  overflow: hidden;
+}
+
+.creatures:nth-child(2n)::before {
+  background: linear-gradient(to right, #d4a15a, #e7c27b);
+}
+
+.creatures .animal-name {
+  margin-top: 10px;
 }

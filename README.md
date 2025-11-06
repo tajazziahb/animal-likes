@@ -10,7 +10,7 @@ A simple Node.js and MongoDB app that lets users like or dislike animals by clic
 
 ---
 
-## 🚀 How It’s Made
+## How It’s Made
 
 **Tech Stack**
 - HTML, CSS, JavaScript (Frontend)
@@ -26,7 +26,7 @@ A simple Node.js and MongoDB app that lets users like or dislike animals by clic
 
 ---
 
-## 🧠 Lessons Learned
+## Lessons Learned
 
 Refactoring this app from a message board template taught me how to separate front-end display logic from server-side data updates while maintaining instant visual feedback.  
 I learned how to:
@@ -37,7 +37,7 @@ I learned how to:
 
 ---
 
-## ⚡ Optimizations
+## Optimizations
 
 - Removed unused routes and message form logic to simplify performance  
 - Minimized database calls — no upserts, only updates to existing documents  

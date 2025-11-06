@@ -1,64 +1,97 @@
-const thumbsUp = document.querySelectorAll('.fa-thumbs-up')
-const thumbsDown = document.querySelectorAll('.fa-thumbs-down')
+document.addEventListener('DOMContentLoaded', () => {
+  const uploadImageForm = document.querySelector('#uploadImageForm') 
+  if (uploadImageForm) {
+    uploadImageForm.addEventListener('submit', (event) => {
+      event.preventDefault()
 
-Array.from(thumbsUp).forEach(function (element) {
-  element.addEventListener('click', function () {
-    const card = this.closest('.creatures')
-    const name = card.dataset.animalId
-    const countEl = card.querySelector('.vote-count')
+      const formData = new FormData(uploadImageForm) // image upload help from Google
 
-    console.log('Clicked 👍 for:', name)
-    console.log('Found countEl:', countEl)
-    console.log('Current number text:', countEl ? countEl.textContent : '(none)')
-
-    fetch('/animals/thumbUp', {
-      method: 'put',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ name })
+      fetch('/animals', {
+        method: 'POST',
+        body: formData
+      })
+        .then((response) => {
+          if (!response.ok) return response.text().then((t) => { throw new Error(t || ('HTTP ' + response.status)) })
+          return response.json()
+        })
+        .then((data) => {
+          console.log('[main.js] Upload OK:', data)
+          window.location.reload(true)
+        })
+        .catch((err) => {
+          console.error('[main.js] Upload failed:', err?.message || err)
+          alert('Upload failed: ' + (err.message || err))
+        })
     })
-      .then(function (response) {
-        if (response.ok) return response.json()
+  }
+
+  const thumbsUp = document.querySelectorAll('.fa-thumbs-up')
+  const thumbsDown = document.querySelectorAll('.fa-thumbs-down')
+  const trashIcons = document.querySelectorAll('.fa-trash')
+
+  thumbsUp.forEach((el) => {
+    el.addEventListener('click', () => {
+      const card = el.closest('.creatures')
+      if (!card) return
+      const name = card.querySelector('.animal-name')?.textContent.trim()
+      const countEl = card.querySelector('.vote-count')
+      if (!name) return
+
+      fetch('/animals/thumbUp', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: name.toLowerCase().split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ')
+        })
       })
-      .then(function (data) {
-        console.log('Server returned:', data)
-        if (data && typeof data.thumbUp === 'number' && countEl) {
-          countEl.textContent = data.thumbUp
-          console.log('Updated number to:', data.thumbUp)
-        }
-      })
-      .catch(function (err) {
-        console.error('Error:', err)
-      })
+        .then((res) => res.ok && res.json())
+        .then((data) => {
+          if (data && typeof data.thumbUp === 'number' && countEl) countEl.textContent = data.thumbUp
+        })
+        .catch((err) => console.error(err))
+    })
   })
-})
 
-Array.from(thumbsDown).forEach(function (element) {
-  element.addEventListener('click', function () {
-    const card = this.closest('.creatures')
-    const name = card.dataset.animalId
-    const countEl = card.querySelector('.vote-count')
+  thumbsDown.forEach((el) => {
+    el.addEventListener('click', () => {
+      const card = el.closest('.creatures')
+      if (!card) return
+      const name = card.querySelector('.animal-name')?.textContent.trim()
+      const countEl = card.querySelector('.vote-count')
+      if (!name) return
 
-    console.log('Clicked 👎 for:', name)
-    console.log('Found countEl:', countEl)
-    console.log('Current number text:', countEl ? countEl.textContent : '(none)')
-
-    fetch('/animals/thumbDown', {
-      method: 'put',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ name })
+      fetch('/animals/thumbDown', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: name.toLowerCase().split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ')
+        })
+      })
+        .then((res) => res.ok && res.json())
+        .then((data) => {
+          if (data && typeof data.thumbUp === 'number' && countEl) countEl.textContent = data.thumbUp
+        })
+        .catch((err) => console.error(err))
     })
-      .then(function (response) {
-        if (response.ok) return response.json()
-      })
-      .then(function (data) {
-        console.log('Server returned:', data)
-        if (data && typeof data.thumbUp === 'number' && countEl) {
-          countEl.textContent = data.thumbUp
-          console.log('Updated number to:', data.thumbUp)
-        }
-      })
-      .catch(function (err) {
-        console.error('Error:', err)
-      })
+  })
+
+  trashIcons.forEach((icon) => {
+    icon.addEventListener('click', () => {
+      const card = icon.closest('.creatures')
+      if (!card) return
+      const id = card?.dataset.animalId
+      if (!id) return
+
+      fetch(`/animals/${id}`, { method: 'DELETE' })
+        .then((res) => {
+          if (!res.ok) throw new Error('Delete failed')
+          return res.json()
+        })
+        .then((out) => { if (out?.ok) card.remove() })
+        .catch((err) => {
+          console.error('Delete error:', err)
+          alert('Error deleting animal: ' + err.message)
+        })
+    })
   })
 })

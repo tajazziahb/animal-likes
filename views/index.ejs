@@ -1,28 +1,53 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" href="font-awesome.min.css">
   <link rel="stylesheet" href="styles.css" />
+  <title>Animal Likes</title>
 </head>
-<body>
-  <h1>Give your favorite animals a vote!</h1>
 
-  <ul class="animals">
-    <% animals.forEach(animal => { %>
-      <li class="creatures" data-animal-id="<%= animal.name %>">
-        <span class="animal-name"><%= animal.name %></span>
-        <img src="<%= animal.img %>" alt="<%= animal.name %>">
-        <div class="vote-row">
-          <i class="fa fa-thumbs-up" aria-hidden="true"></i>
-          <span class="vote-count"><%= animal.thumbUp %></span>
-          <i class="fa fa-thumbs-down" aria-hidden="true"></i>
-        </div>
-      </li>
-    <% }) %>
-  </ul>
+<body class="forest">
+  <h1 class="page-title">The Wild Vote</h1>
+  
+  <div class="paw-trail" aria-hidden="true">
+    <span class="paw"></span><span class="paw"></span><span class="paw"></span><span class="paw"></span>
+    <span class="paw"></span><span class="paw"></span><span class="paw"></span><span class="paw"></span>
+    <span class="paw"></span><span class="paw"></span><span class="paw"></span><span class="paw"></span>
+  </div>
 
-  <script src="main.js"></script>
+  <form id="uploadImageForm" enctype="multipart/form-data" method="POST">
+    <input type="text" name="name" placeholder="Animal Name" required />
+    <input type="file" name="image" accept="image/*" required />
+    <button type="submit">Submit Animal</button>
+  </form>
+
+  <% if (!animals || animals.length===0) { %>
+    <p>No animals yet — be the first to add one!</p>
+    <% } else { %>
+      <ul class="animals">
+        <% animals.forEach(function (animal) { %>
+          <li class="creatures" data-animal-id="<%= animal._id %>" data-animal-name="<%= animal.name %>">
+            <span class="animal-name">
+              <%= animal.name %>
+            </span>
+            <img src="<%= animal.img %>" alt="<%= animal.name %>">
+            <div class="vote-row">
+              <i class="fa fa-thumbs-up" aria-hidden="true"></i>
+              <span class="vote-count">
+                <%= animal.thumbUp %>
+              </span>
+              <i class="fa fa-thumbs-down" aria-hidden="true"></i>
+              <i class="fa fa-trash" aria-hidden="true"></i>
+            </div>
+          </li>
+          <% }) %>
+      </ul>
+      <% } %>
+
+        <script src="main.js"></script>
 </body>
+
 </html>
