@@ -1,7 +1,6 @@
 # 🐾 Animal Likes
 
-A simple Node.js and MongoDB app that lets users like or dislike animals by clicking icons — no text inputs, no message board. Each animal’s total count updates instantly without page reloads.
-
+A simple Node.js and MongoDB app that lets users give an animal name and upload an image.
 ---
 
 [Link to view project](https://animal-likes-production.up.railway.app/)
